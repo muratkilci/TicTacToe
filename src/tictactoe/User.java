@@ -1,10 +1,19 @@
 package tictactoe;
 
-public class user extends Player{
+public class User extends Player {
     private String[] userInput;
 
-    public user(String playerChar) {
+    public User(String playerChar) {
         super(playerChar);
+    }
+
+    private static boolean numControl(String str) {
+        try {
+            Integer.parseInt(str);
+            return false;
+        } catch (NumberFormatException e) {
+            return true;
+        }
     }
 
     @Override
@@ -14,12 +23,12 @@ public class user extends Player{
             System.out.print("Enter the coordinates: ");
             userInput = inp.nextLine().split(" ");
             /*
-            * The Split method is used to split what is written and assign it to a string. This is how we enter the coordinates.
-            * But gets a string type in the input made.
-            * This is why we convert data to integers using the parseInt method
-            * */
+             * The Split method is used to split what is written and assign it to a string. This is how we enter the coordinates.
+             * But gets a string type in the input made.
+             * This is why we convert data to integers using the parseInt method
+             * */
 
-            if (userInput.length != 2 || numControl(userInput[0]) || numControl(userInput[1])){
+            if (userInput.length != 2 || numControl(userInput[0]) || numControl(userInput[1])) {
                 System.out.println("You should enter numbers!");
                 continue;
             }
@@ -39,14 +48,5 @@ public class user extends Player{
 
         }
         return winner(getPlayerChar());
-    }
-
-    private static boolean numControl(String str) {
-        try {
-            Integer.parseInt(str);
-            return false;
-        } catch(NumberFormatException e){
-            return true;
-        }
     }
 }

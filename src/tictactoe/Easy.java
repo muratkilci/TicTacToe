@@ -1,6 +1,6 @@
 package tictactoe;
 
-public class Easy extends Player{
+public class Easy extends Player {
 
     public Easy(String playerNum) {
         super(playerNum);
