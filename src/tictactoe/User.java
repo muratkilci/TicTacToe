@@ -12,7 +12,7 @@ public class User extends Player{
         while (true) {
 
             System.out.print("Enter the coordinates: ");
-            userInput = inp.nextLine().split(" ");
+            String[] userInput = inp.nextLine().split(" ");
             /*
             * The Split method is used to split what is written and assign it to a string. This is how we enter the coordinates.
             * But gets a string type in the input made.

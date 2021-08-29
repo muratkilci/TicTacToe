@@ -6,9 +6,8 @@ import java.util.Scanner;
 public abstract class Player {
     protected static final Random random = new Random();
     protected static final Scanner inp = new Scanner(System.in);
-
-    protected String playerChar;
     protected static String[][] board = new String[3][3];
+    protected String playerChar;
 
     Player(String playerChar) {
         this.playerChar = playerChar;
@@ -22,26 +21,25 @@ public abstract class Player {
         Player.board = board;
     }
 
-    protected void randomChoice(){
+    protected void randomChoice() {
         //Random value function for easy and medium method.
-        int[] Coordinates =new int[2];
+        int[] Coordinates = new int[2];
 
-        while (true){
-            Coordinates[0]=random.nextInt(3);
-            Coordinates[1]=random.nextInt(3);
-            if (board[Coordinates[0]][Coordinates[1]].equals(" "))
-            {
+        while (true) {
+            Coordinates[0] = random.nextInt(3);
+            Coordinates[1] = random.nextInt(3);
+            if (board[Coordinates[0]][Coordinates[1]].equals(" ")) {
                 board[Coordinates[0]][Coordinates[1]] = getPlayerChar();
                 break;
             }
         }
     }
 
-    protected boolean winner(String playerNum){
+    protected boolean winner(String playerNum) {
         /*
-        * Here there are a total of 8 ways to win 3 horizontal, 3 vertical and 2 diagonal
-        * we wrote a series containing all these paths and made the winning control with this series.
-        * */
+         * Here there are a total of 8 ways to win 3 horizontal, 3 vertical and 2 diagonal
+         * we wrote a series containing all these paths and made the winning control with this series.
+         * */
         String[] strings = new String[8];
         strings[0] = board[0][0] + board[0][1] + board[0][2];
         strings[1] = board[1][0] + board[1][1] + board[1][2];
@@ -52,7 +50,7 @@ public abstract class Player {
         strings[6] = board[0][0] + board[1][1] + board[2][2];
         strings[7] = board[0][2] + board[1][1] + board[2][0];
         for (String string : strings) {
-            if (string.equals(playerNum+playerNum+playerNum)) {
+            if (string.equals(playerNum + playerNum + playerNum)) {
                 return true;
             }
         }
