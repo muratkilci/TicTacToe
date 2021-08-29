@@ -39,7 +39,7 @@ public class TicTacToe {
                     player1 = new Hard("X");
                     break;
                 case "user":
-                    player1 = new user("X");
+                    player1 = new User("X");
                     break;
                 default:
                     System.out.println("Bad parameters!");
@@ -56,7 +56,7 @@ public class TicTacToe {
                     player2 = new Hard("O");
                     break;
                 case "user":
-                    player2 = new user("O");
+                    player2 = new User("O");
                     break;
                 default:
                     System.out.println("Wrong input player!");

@@ -1,9 +1,9 @@
 package tictactoe;
 
-public class user extends Player{
+public class User extends Player{
     private String[] userInput;
 
-    public user(String playerChar) {
+    public User(String playerChar) {
         super(playerChar);
     }
 
