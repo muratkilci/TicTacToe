@@ -66,62 +66,111 @@ public class TicTacToe {
         return true;
     }
 
+    private static int getIntInput(String option) {
+        int upLimit = 0;
+
+        if (option.equals("1")) {
+            upLimit = 2;
+        }
+        else if (option.equals("2")) {
+            upLimit = 4;
+        }
+
+        while (true) {
+            int getInteger = getInt();
+            inp.nextLine();
+            if (getInteger>0 && getInteger<=upLimit){
+                return getInteger;
+            }
+            else {
+                System.out.println("Please enter a number from 0 to "+ upLimit);
+            }
+
+
+        }
+    }
+
+    private static int getInt(){
+        while (!inp.hasNextInt())
+        {
+            System.out.println("please enter your choice :");
+            inp.next();
+        }
+        return inp.nextInt();
+    }
+
     public void start() {
         while (true) {
+            System.out.println("""
+                    1)Start
+                    2)Exit""");
             System.out.print("Input command: > ");
+            String entry;
 
-            this.menuChoice = inp.nextLine().split(" ");
-            /*
-             * The Split method is used to split what is written and assign it to a string.
-             * This way you can start and enter the player type together.
-             * */
+            entry= String.valueOf(getIntInput("1"));
+            if (entry.equals(String.valueOf(1))){
+                System.out.println("Enter Player1 ");
+                System.out.println("""
+                        1)Easy
+                        2)Medium
+                        3)Hard
+                        4)User""");
+                String firstPlayer = String.valueOf(getIntInput("2"));
 
-            if ((!menuChoice[0].equals("start") || menuChoice.length != 3) && !menuChoice[0].equals("exit")) {
-                System.out.println("Bad parameters!");
-                continue;
+                System.out.println("Enter Player2 ");
+                System.out.println("""
+                        1)Easy
+                        2)Medium
+                        3)Hard
+                        4)User""");
+                String secondPlayer = String.valueOf(getIntInput("2"));
+
+
+                //We create our abstract objects
+                Player player1;
+                Player player2;
+                switch (firstPlayer) {
+                    case "1":
+                        player1 = new Easy("X");
+                        break;
+                    case "2":
+                        player1 = new Medium("X");
+                        break;
+                    case "3":
+                        player1 = new Hard("X");
+                        break;
+                    case "4":
+                        player1 = new User("X");
+                        break;
+                    default:
+                        System.out.println("Bad parameters!");
+                        continue;
+                }
+                switch (secondPlayer) {
+                    case "1":
+                        player2 = new Easy("O");
+                        break;
+                    case "2":
+                        player2 = new Medium("O");
+                        break;
+                    case "3":
+                        player2 = new Hard("O");
+                        break;
+                    case "4":
+                        player2 = new User("O");
+                        break;
+                    default:
+                        System.out.println("Wrong input player!");
+                        continue;
+                }
+                gameLoop(player1, player2);
+
+
             }
 
-            if (menuChoice[0].equals("exit"))
+            if (entry.equals(String.valueOf(2)))
                 break;
 
-            //We create our abstract objects
-            Player player1;
-            Player player2;
-            switch (menuChoice[1]) {
-                case "easy":
-                    player1 = new Easy("X");
-                    break;
-                case "medium":
-                    player1 = new Medium("X");
-                    break;
-                case "hard":
-                    player1 = new Hard("X");
-                    break;
-                case "user":
-                    player1 = new User("X");
-                    break;
-                default:
-                    System.out.println("Bad parameters!");
-                    continue;
-            }
-            switch (menuChoice[2]) {
-                case "easy":
-                    player2 = new Easy("O");
-                    break;
-                case "medium":
-                    player2 = new Medium("O");
-                    break;
-                case "hard":
-                    player2 = new Hard("O");
-                    break;
-                case "user":
-                    player2 = new User("O");
-                    break;
-                default:
-                    System.out.println("Wrong input player!");
-                    continue;
-            }
-            gameLoop(player1, player2);
         }
 
     }
