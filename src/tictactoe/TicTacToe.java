@@ -80,7 +80,7 @@ public class TicTacToe {
             if (getInteger > 0 && getInteger <= upLimit) {
                 return getInteger;
             } else {
-                System.out.println("Please enter a number from 0 to " + upLimit);
+                System.out.println("Please enter a number from 1 to " + upLimit);
             }
         }
     }
@@ -124,42 +124,26 @@ public class TicTacToe {
                 Player player1;
                 Player player2;
                 switch (firstPlayer) {
-                    case "1":
-                        player1 = new Easy("X");
-                        break;
-                    case "2":
-                        player1 = new Medium("X");
-                        break;
-                    case "3":
-                        player1 = new Hard("X");
-                        break;
-                    case "4":
-                        player1 = new User("X");
-                        break;
-                    default:
-                        System.out.println("Bad parameters!");
-                        continue;
-                }
-                switch (secondPlayer) {
-                    case "1":
-                        player2 = new Easy("O");
-                        break;
-                    case "2":
-                        player2 = new Medium("O");
-                        break;
-                    case "3":
-                        player2 = new Hard("O");
-                        break;
-                    case "4":
-                        player2 = new User("O");
-                        break;
-                    default:
+                    case "1" -> player1 = new Easy("X");
+                    case "2" -> player1 = new Medium("X");
+                    case "3" -> player1 = new Hard("X");
+                    case "4" -> player1 = new User("X");
+                    default -> {
                         System.out.println("Wrong input player!");
                         continue;
+                    }
+                }
+                switch (secondPlayer) {
+                    case "1" -> player2 = new Easy("O");
+                    case "2" -> player2 = new Medium("O");
+                    case "3" -> player2 = new Hard("O");
+                    case "4" -> player2 = new User("O");
+                    default -> {
+                        System.out.println("Wrong input player!");
+                        continue;
+                    }
                 }
                 gameLoop(player1, player2);
-
-
             }
 
             if (entry.equals(String.valueOf(2)))
