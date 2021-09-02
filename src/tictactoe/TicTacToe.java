@@ -71,28 +71,23 @@ public class TicTacToe {
 
         if (option.equals("1")) {
             upLimit = 2;
-        }
-        else if (option.equals("2")) {
+        } else if (option.equals("2")) {
             upLimit = 4;
         }
 
         while (true) {
             int getInteger = getInt();
             inp.nextLine();
-            if (getInteger>0 && getInteger<=upLimit){
+            if (getInteger > 0 && getInteger <= upLimit) {
                 return getInteger;
+            } else {
+                System.out.println("Please enter a number from 0 to " + upLimit);
             }
-            else {
-                System.out.println("Please enter a number from 0 to "+ upLimit);
-            }
-
-
         }
     }
 
-    private static int getInt(){
-        while (!inp.hasNextInt())
-        {
+    private static int getInt() {
+        while (!inp.hasNextInt()) {
             System.out.println("please enter your choice :");
             inp.next();
         }
@@ -107,8 +102,8 @@ public class TicTacToe {
             System.out.print("Input command: > ");
             String entry;
 
-            entry= String.valueOf(getIntInput("1"));
-            if (entry.equals(String.valueOf(1))){
+            entry = String.valueOf(getIntInput("1"));
+            if (entry.equals(String.valueOf(1))) {
                 System.out.println("Enter Player1 ");
                 System.out.println("""
                         1)Easy
