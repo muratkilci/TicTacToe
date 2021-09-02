@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class TicTacToe {
     static final Scanner inp = new Scanner(System.in);
     private static final String[][] board = new String[3][3];
-    String[] menuChoice;
 
     private static void gameLoop(Player player1, Player player2) {
 
