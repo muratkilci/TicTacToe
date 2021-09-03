@@ -3,9 +3,9 @@ package tictactoe;
 import java.util.Random;
 
 public abstract class Player {
-    protected final Random random = new Random();
     protected static String[][] board = new String[3][3];
-    protected String playerChar;
+    protected final Random random = new Random();
+    private final String playerChar;
 
     Player(String playerChar) {
         this.playerChar = playerChar;

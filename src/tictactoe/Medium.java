@@ -1,7 +1,6 @@
 package tictactoe;
 
 public class Medium extends Player {
-
     String OppositeChar = this.getPlayerChar().equals("X") ? "O" : "X";   //We're creating an opposing character.
 
     public Medium(String playerNum) {

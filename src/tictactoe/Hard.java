@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Hard extends Player {
-
     String oppositeChar = this.getPlayerChar().equals("X") ? "O" : "X";      //We're creating an opposing character.
 
     public Hard(String playerChar) {

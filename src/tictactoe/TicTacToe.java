@@ -3,10 +3,10 @@ package tictactoe;
 import java.util.Scanner;
 
 public class TicTacToe {
-    static final Scanner inp = new Scanner(System.in);
-    private static final String[][] board = new String[3][3];
+    private final String[][] board = new String[3][3];
+    Scanner inp = new Scanner(System.in);
 
-    private static void gameLoop(Player player1, Player player2) {
+    private void gameLoop(Player player1, Player player2) {
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -40,7 +40,7 @@ public class TicTacToe {
         }
     }
 
-    private static void showBoard() {
+    private void showBoard() {
         // Printing on board.
         System.out.println("---------");
         for (int i = 0; i < 3; i++) {
@@ -54,7 +54,7 @@ public class TicTacToe {
         System.out.println("---------");
     }
 
-    private static boolean isBoardEmpty() {
+    private boolean isBoardEmpty() {
         //Board check. Used for draw control.
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -65,7 +65,7 @@ public class TicTacToe {
         return true;
     }
 
-    private static int getIntInput(String option) {
+    private int getIntInput(String option) {
         int upLimit = 0;
 
         if (option.equals("1")) {
@@ -85,7 +85,7 @@ public class TicTacToe {
         }
     }
 
-    private static int getInt() {
+    private int getInt() {
         while (!inp.hasNextInt()) {
             System.out.println("please enter your choice :");
             inp.next();

@@ -3,14 +3,13 @@ package tictactoe;
 import java.util.Scanner;
 
 public class User extends Player {
-
-    protected final Scanner inp = new Scanner(System.in);
+    Scanner inp = new Scanner(System.in);
 
     public User(String playerChar) {
         super(playerChar);
     }
 
-    private static boolean numControl(String str) {
+    private boolean numControl(String str) {
         try {
             Integer.parseInt(str);
             return false;
