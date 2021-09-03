@@ -4,7 +4,6 @@ import java.util.Random;
 
 public abstract class Player {
     protected static String[][] board = new String[3][3];
-    protected final Random random = new Random();
     private final String playerChar;
 
     Player(String playerChar) {
@@ -20,20 +19,30 @@ public abstract class Player {
     }
 
     protected void randomChoice() {
+        // TODO: Variables should be defined in the narrowest scope they can be defined.
+        //  Otherwise objects that are no longer used continue to exist.
+        final Random random = new Random();
+
         //Random value function for easy and medium method.
         int[] Coordinates = new int[2];
 
-        while (true) {
+        // 'true' in a loop is never a good idea.
+        // Instead, use flags, named in accordance with what it does.
+        boolean isNotBlank = true;
+
+        while (isNotBlank) {
             Coordinates[0] = random.nextInt(3);
             Coordinates[1] = random.nextInt(3);
             if (board[Coordinates[0]][Coordinates[1]].equals(" ")) {
                 board[Coordinates[0]][Coordinates[1]] = getPlayerChar();
-                break;
+                isNotBlank = false;
             }
         }
     }
 
-    protected boolean winner(String playerNum) {
+    // TODO: This method is belongs to the class. Not specific for each object.
+    //  Therefore should be static.
+    protected static boolean winner(String playerNum) {
         /*
          * Here there are a total of 8 ways to win 3 horizontal, 3 vertical and 2 diagonal
          * we wrote a series containing all these paths and made the winning control with this series.
@@ -55,6 +64,6 @@ public abstract class Player {
         return false;
     }
 
-    protected abstract boolean gameTurn();    //The artificial intelligence that plays this game will be encoded in it.
+    protected abstract void gameTurn();    //The artificial intelligence that plays this game will be encoded in it.
 
 }

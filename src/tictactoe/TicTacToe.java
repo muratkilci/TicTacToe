@@ -1,43 +1,72 @@
 package tictactoe;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class TicTacToe {
     private final String[][] board = new String[3][3];
-    Scanner inp = new Scanner(System.in);
+    private final Scanner inp = new Scanner(System.in);
+
+    // TODO: We read code from the top, therefore the functions should be declared in this order.
+    //  Therefore move 'start' function to the top, to make the code easier to read.
 
     private void gameLoop(Player player1, Player player2) {
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                board[i][j] = " ";
-            }
-        }
+        // TODO: What we are doing here?
+        Arrays.stream(board).forEach(row ->
+                Arrays.fill(row, " "));
+
         player1.setBoard(board);
         player2.setBoard(board);
-        while (true) {
-            showBoard();
-            if (player1.gameTurn()) {
-                showBoard();
-                System.out.println("X wins");
-                break;
-            } else if (isBoardEmpty()) {
-                showBoard();
-                System.out.println("Draw");
-                break;
-            }
 
-            showBoard();
-            if (player2.gameTurn()) {
-                showBoard();
-                System.out.println("O wins");
-                break;
-            } else if (isBoardEmpty()) {
-                showBoard();
-                System.out.println("Draw");
-                break;
+        // TODO: 'true' in a loop is generally not a good idea.
+        //  Because it reduces the readability of the code, therefore considered as bad coding practice.
+        //  Instead, use flags, named in accordance with what it does.
+        //  Also, 'break' and 'continue' can make code hard to read, use them sparely.
+
+        boolean finishFlag = true;
+        while (finishFlag) {
+            // Player1 make its move,
+            makeMove(player1);
+
+            if (!isGameFinished(player1, true)) {
+                // Player2 make its move,
+                makeMove(player2);
+                if (isGameFinished(player2, false)) {
+                    finishFlag = false;
+                }
+
+            } else {
+                finishFlag = false;
             }
         }
+    }
+
+    private void makeMove(Player player) {
+        showBoard();
+        player.gameTurn();
+    }
+
+    private boolean isGameFinished(Player player, boolean isFirstPlayer) {
+        boolean isWin = Player.winner(player.getPlayerChar());
+        // We check if game finished or not.
+        boolean isGameFinished;
+
+        if (isWin || isBoardEmpty()) {
+            showBoard();
+            String result;
+
+            if (isWin) result = isFirstPlayer ? "X wins" : "O wins";
+            else result = "Draw";
+
+            System.out.println(result);
+            isGameFinished = true;
+
+        } else {
+            isGameFinished = false;
+        }
+
+        return isGameFinished;
     }
 
     private void showBoard() {
@@ -94,62 +123,72 @@ public class TicTacToe {
     }
 
     public void start() {
-        while (true) {
+        // TODO: 'true' in a loop is generally not a good idea.
+        //  Because it reduces the readability of the code, therefore considered as bad coding practice.
+        //  Instead, use flags, named in accordance with what it does.
+        //  Also, 'break' and 'continue' can make code hard to read, use them sparely.
+        boolean keepPlaying = true;
+        while (keepPlaying) {
             System.out.println("""
                     1)Start
                     2)Exit""");
             System.out.print("Input command: > ");
-            String entry;
 
-            entry = String.valueOf(getIntInput("1"));
-            if (entry.equals(String.valueOf(1))) {
+            String entry = String.valueOf(getIntInput("1"));
+            if (entry.equals("1")) {
                 System.out.println("Enter Player1 ");
-                System.out.println("""
-                        1)Easy
-                        2)Medium
-                        3)Hard
-                        4)User""");
+
+                // TODO: You can go to method declaration with CTRL + B,
+                //  or right click Go To -> Declaration or usages.
+                printPlayerTypes();
                 String firstPlayer = String.valueOf(getIntInput("2"));
 
                 System.out.println("Enter Player2 ");
-                System.out.println("""
-                        1)Easy
-                        2)Medium
-                        3)Hard
-                        4)User""");
+                printPlayerTypes();
                 String secondPlayer = String.valueOf(getIntInput("2"));
-
 
                 //We create our abstract objects
                 Player player1;
                 Player player2;
-                switch (firstPlayer) {
-                    case "1" -> player1 = new Easy("X");
-                    case "2" -> player1 = new Medium("X");
-                    case "3" -> player1 = new Hard("X");
-                    case "4" -> player1 = new User("X");
-                    default -> {
-                        System.out.println("Wrong input player!");
-                        continue;
-                    }
+                try {
+                    player1 = choosePlayerTypes(true, firstPlayer);
+                    player2 = choosePlayerTypes(false, secondPlayer);
+                    gameLoop(player1, player2);
+                } catch (Exception e) {
+                    // TODO: We already check the player input with 'getIntInput' method,
+                    //  If an invalid entry is made despite this, it means that there is an error our code.
+                    //  That's why we throw IllegalStateException error in 'choosePlayerTypes' function,
+                    //  but still we choose to catch the error in 'catch' so that the program doesn't crash.
+                    System.out.println(Arrays.toString(e.getStackTrace()));
                 }
-                switch (secondPlayer) {
-                    case "1" -> player2 = new Easy("O");
-                    case "2" -> player2 = new Medium("O");
-                    case "3" -> player2 = new Hard("O");
-                    case "4" -> player2 = new User("O");
-                    default -> {
-                        System.out.println("Wrong input player!");
-                        continue;
-                    }
-                }
-                gameLoop(player1, player2);
+
+            } else if (entry.equals("2")) {
+                keepPlaying = false;
             }
-
-            if (entry.equals(String.valueOf(2)))
-                break;
-
         }
+    }
 
+    private void printPlayerTypes() {
+        System.out.println("""
+                        1)Easy
+                        2)Medium
+                        3)Hard
+                        4)User""");
+    }
+
+    private Player choosePlayerTypes(boolean isFirstPlayer, String playerType) {
+        Player player;
+
+        String mark = isFirstPlayer ? "X" : "O";
+
+        switch (playerType) {
+            case "1" -> player = new Easy(mark);
+            case "2" -> player = new Medium(mark);
+            case "3" -> player = new Hard(mark);
+            case "4" -> player = new User(mark);
+            default ->
+                    throw new IllegalStateException("Wrong input player!");
+        }
+        return player;
     }
 }
