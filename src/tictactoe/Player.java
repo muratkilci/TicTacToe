@@ -1,11 +1,9 @@
 package tictactoe;
 
 import java.util.Random;
-import java.util.Scanner;
 
 public abstract class Player {
-    protected static final Random random = new Random();
-    protected static final Scanner inp = new Scanner(System.in);
+    protected final Random random = new Random();
     protected static String[][] board = new String[3][3];
     protected String playerChar;
 

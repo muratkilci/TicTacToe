@@ -1,7 +1,10 @@
 package tictactoe;
 
+import java.util.Scanner;
+
 public class User extends Player {
-    private String[] userInput;
+
+    protected final Scanner inp = new Scanner(System.in);
 
     public User(String playerChar) {
         super(playerChar);
