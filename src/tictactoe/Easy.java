@@ -7,9 +7,8 @@ public class Easy extends Player {
     }
 
     @Override
-    protected boolean gameTurn() {
+    protected void gameTurn() {
         System.out.println("Making move level \"easy\"");
         randomChoice();
-        return winner(getPlayerChar());
     }
 }

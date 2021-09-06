@@ -1,10 +1,48 @@
 package tictactoe;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class TicTacToe {
     private final String[][] board = new String[3][3];
-    Scanner inp = new Scanner(System.in);
+    private final Scanner inp = new Scanner(System.in);
+
+    public void start() {
+        boolean keepPlaying = true;
+        while (keepPlaying) {
+            System.out.println("""
+                    1)Start
+                    2)Exit""");
+            System.out.print("Input command: > ");
+
+            String entry = String.valueOf(getIntInput("1"));
+            if (entry.equals(String.valueOf(1))) {
+                System.out.println("Enter Player1 ");
+                printPlayerTypes();
+
+                String firstPlayer = String.valueOf(getIntInput("2"));
+
+                System.out.println("Enter Player2 ");
+                printPlayerTypes();
+
+                String secondPlayer = String.valueOf(getIntInput("2"));
+
+                //We create our abstract objects
+                Player player1;
+                Player player2;
+
+                try {
+                    player1 = choosePlayerTypes(true, firstPlayer);
+                    player2 = choosePlayerTypes(false, secondPlayer);
+                    gameLoop(player1, player2);
+                } catch (Exception e) {
+                    System.out.println(Arrays.toString(e.getStackTrace()));
+                }
+            } else if (entry.equals("2")) {
+                keepPlaying = false;
+            }
+        }
+    }
 
     private void gameLoop(Player player1, Player player2) {
 
@@ -13,31 +51,53 @@ public class TicTacToe {
                 board[i][j] = " ";
             }
         }
+
         player1.setBoard(board);
         player2.setBoard(board);
-        while (true) {
-            showBoard();
-            if (player1.gameTurn()) {
-                showBoard();
-                System.out.println("X wins");
-                break;
-            } else if (isBoardEmpty()) {
-                showBoard();
-                System.out.println("Draw");
-                break;
-            }
 
-            showBoard();
-            if (player2.gameTurn()) {
-                showBoard();
-                System.out.println("O wins");
-                break;
-            } else if (isBoardEmpty()) {
-                showBoard();
-                System.out.println("Draw");
-                break;
+        boolean finishFlag = true;
+        while (finishFlag) {
+            // Player1 make its move,
+            makeMove(player1);
+
+            if (!isGameFinished(player1, true)) {
+                // Player2 make its move,
+                makeMove(player2);
+                if (isGameFinished(player2, false)) {
+                    finishFlag = false;
+                }
+
+            } else {
+                finishFlag = false;
             }
         }
+    }
+
+    private void makeMove(Player player) {
+        showBoard();
+        player.gameTurn();
+    }
+
+    private boolean isGameFinished(Player player, boolean isFirstPlayer) {
+        boolean isWin = Player.winner(player.getPlayerChar());
+        // We check if game finished or not.
+        boolean isGameFinished;
+
+        if (isWin || isBoardEmpty()) {
+            showBoard();
+            String result;
+
+            if (isWin) result = isFirstPlayer ? "X wins" : "O wins";
+            else result = "Draw";
+
+            System.out.println(result);
+            isGameFinished = true;
+
+        } else {
+            isGameFinished = false;
+        }
+
+        return isGameFinished;
     }
 
     private void showBoard() {
@@ -93,63 +153,26 @@ public class TicTacToe {
         return inp.nextInt();
     }
 
-    public void start() {
-        while (true) {
-            System.out.println("""
-                    1)Start
-                    2)Exit""");
-            System.out.print("Input command: > ");
-            String entry;
+    private void printPlayerTypes() {
+        System.out.println("""
+                1)Easy
+                2)Medium
+                3)Hard
+                4)User""");
+    }
 
-            entry = String.valueOf(getIntInput("1"));
-            if (entry.equals(String.valueOf(1))) {
-                System.out.println("Enter Player1 ");
-                System.out.println("""
-                        1)Easy
-                        2)Medium
-                        3)Hard
-                        4)User""");
-                String firstPlayer = String.valueOf(getIntInput("2"));
+    private Player choosePlayerTypes(boolean isFirstPlayer, String playerType) {
+        Player player;
 
-                System.out.println("Enter Player2 ");
-                System.out.println("""
-                        1)Easy
-                        2)Medium
-                        3)Hard
-                        4)User""");
-                String secondPlayer = String.valueOf(getIntInput("2"));
+        String mark = isFirstPlayer ? "X" : "O";
 
-
-                //We create our abstract objects
-                Player player1;
-                Player player2;
-                switch (firstPlayer) {
-                    case "1" -> player1 = new Easy("X");
-                    case "2" -> player1 = new Medium("X");
-                    case "3" -> player1 = new Hard("X");
-                    case "4" -> player1 = new User("X");
-                    default -> {
-                        System.out.println("Wrong input player!");
-                        continue;
-                    }
-                }
-                switch (secondPlayer) {
-                    case "1" -> player2 = new Easy("O");
-                    case "2" -> player2 = new Medium("O");
-                    case "3" -> player2 = new Hard("O");
-                    case "4" -> player2 = new User("O");
-                    default -> {
-                        System.out.println("Wrong input player!");
-                        continue;
-                    }
-                }
-                gameLoop(player1, player2);
-            }
-
-            if (entry.equals(String.valueOf(2)))
-                break;
-
+        switch (playerType) {
+            case "1" -> player = new Easy(mark);
+            case "2" -> player = new Medium(mark);
+            case "3" -> player = new Hard(mark);
+            case "4" -> player = new User(mark);
+            default -> throw new IllegalStateException("Wrong input player!");
         }
-
+        return player;
     }
 }

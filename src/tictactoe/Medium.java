@@ -8,7 +8,7 @@ public class Medium extends Player {
     }
 
     @Override
-    protected boolean gameTurn() {
+    protected void gameTurn() {
         System.out.println("Making move level \"medium\"");
         int[] AICoordinates;
         AICoordinates = mediumMove(getPlayerChar());
@@ -17,16 +17,15 @@ public class Medium extends Player {
         } else {
             board[AICoordinates[0]][AICoordinates[1]] = getPlayerChar();
         }
-        return winner(getPlayerChar());
     }
 
     private int[] mediumMove(String player) {
         int[] move;
         move = win(player);
-        if (move[0] != -1) {
-            return move;
+
+        if (move[0] == -1) {
+            move = win(OppositeChar);
         }
-        move = win(OppositeChar);
 
         return move;
     }
@@ -40,16 +39,12 @@ public class Medium extends Player {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (board[i][j].equals(" ")) {
-                    board[i][j] = charPlayer;
                     if (winner(charPlayer)) {
-                        board[i][j] = " ";
                         return new int[]{i, j};
                     }
-                    board[i][j] = " ";
                 }
             }
         }
         return new int[]{-1, -1};
     }
-
 }

@@ -1,6 +1,5 @@
 package tictactoe;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +11,10 @@ public class Hard extends Player {
     }
 
     @Override
-    protected boolean gameTurn() {
+    protected void gameTurn() {
         System.out.println("Making move level \"hard\"");
         int[] result = minimax(3, getPlayerChar()); // depth, max turn
         board[result[1]][result[2]] = getPlayerChar();
-        return winner(getPlayerChar());
     }
 
     private int[] minimax(int depth, String player) {
@@ -32,20 +30,22 @@ public class Hard extends Player {
         } else {
             for (int[] move : nextMoves) {                  //Detecting the coordinate that best score
                 board[move[0]][move[1]] = player;
+
+
+                boolean updateBest = false;
                 if (player.equals(getPlayerChar())) {
                     currentScore = minimax(depth - 1, oppositeChar)[0];  //Here it tries all the possibilities by repeating the same function.
-                    if (currentScore > bestScore) {
-                        bestScore = currentScore;
-                        bestRow = move[0];
-                        bestCol = move[1];
-                    }
+                    if (currentScore > bestScore) updateBest = true;
+
                 } else {
                     currentScore = minimax(depth - 1, getPlayerChar())[0];   //Here it tries all the possibilities by repeating the same function.As in the case of If
-                    if (currentScore < bestScore) {
-                        bestScore = currentScore;
-                        bestRow = move[0];
-                        bestCol = move[1];
-                    }
+                    if (currentScore < bestScore) updateBest = true;
+                }
+
+                if (updateBest) {
+                    bestScore = currentScore;
+                    bestRow = move[0];
+                    bestCol = move[1];
                 }
                 board[move[0]][move[1]] = " ";
             }
@@ -155,5 +155,4 @@ public class Hard extends Player {
 
         return score;
     }
-
 }

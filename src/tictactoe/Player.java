@@ -4,36 +4,13 @@ import java.util.Random;
 
 public abstract class Player {
     protected static String[][] board = new String[3][3];
-    protected final Random random = new Random();
     private final String playerChar;
 
     Player(String playerChar) {
         this.playerChar = playerChar;
     }
 
-    public String getPlayerChar() {
-        return playerChar;
-    }
-
-    public void setBoard(String[][] board) {
-        Player.board = board;
-    }
-
-    protected void randomChoice() {
-        //Random value function for easy and medium method.
-        int[] Coordinates = new int[2];
-
-        while (true) {
-            Coordinates[0] = random.nextInt(3);
-            Coordinates[1] = random.nextInt(3);
-            if (board[Coordinates[0]][Coordinates[1]].equals(" ")) {
-                board[Coordinates[0]][Coordinates[1]] = getPlayerChar();
-                break;
-            }
-        }
-    }
-
-    protected boolean winner(String playerNum) {
+    protected static boolean winner(String playerNum) {
         /*
          * Here there are a total of 8 ways to win 3 horizontal, 3 vertical and 2 diagonal
          * we wrote a series containing all these paths and made the winning control with this series.
@@ -55,6 +32,30 @@ public abstract class Player {
         return false;
     }
 
-    protected abstract boolean gameTurn();    //The artificial intelligence that plays this game will be encoded in it.
+    public String getPlayerChar() {
+        return playerChar;
+    }
+
+    public void setBoard(String[][] board) {
+        Player.board = board;
+    }
+
+    protected void randomChoice() {
+        //Random value function for easy and medium method.
+        final Random random = new Random();
+        int[] Coordinates = new int[2];
+        boolean isNotBlank = true;
+
+        while (isNotBlank) {
+            Coordinates[0] = random.nextInt(3);
+            Coordinates[1] = random.nextInt(3);
+            if (board[Coordinates[0]][Coordinates[1]].equals(" ")) {
+                board[Coordinates[0]][Coordinates[1]] = getPlayerChar();
+                isNotBlank = false;
+            }
+        }
+    }
+
+    protected abstract void gameTurn();    //The artificial intelligence that plays this game will be encoded in it.
 
 }

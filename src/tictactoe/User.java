@@ -19,8 +19,9 @@ public class User extends Player {
     }
 
     @Override
-    protected boolean gameTurn() {
-        while (true) {
+    protected void gameTurn() {
+        boolean isNotValid = true;
+        while (isNotValid) {
 
             System.out.print("Enter the coordinates: ");
             String[] userInput = inp.nextLine().split(" ");
@@ -32,23 +33,18 @@ public class User extends Player {
 
             if (userInput.length != 2 || numControl(userInput[0]) || numControl(userInput[1])) {
                 System.out.println("You should enter numbers!");
-                continue;
-            }
 
-            if (Integer.parseInt(userInput[0]) < 1 || Integer.parseInt(userInput[1]) < 1
+            } else if (Integer.parseInt(userInput[0]) < 1 || Integer.parseInt(userInput[1]) < 1
                     || Integer.parseInt(userInput[0]) > 3 || Integer.parseInt(userInput[1]) > 3) {
                 System.out.println("Coordinates should be from 1 to 3!");
-                continue;
-            }
 
-            if (!board[Integer.parseInt(userInput[0]) - 1][Integer.parseInt(userInput[1]) - 1].equals(" ")) {
+            } else if (!board[Integer.parseInt(userInput[0]) - 1][Integer.parseInt(userInput[1]) - 1].equals(" ")) {
                 System.out.println("This cell is occupied! Choose another one!");
-                continue;
-            }
-            board[Integer.parseInt(userInput[0]) - 1][Integer.parseInt(userInput[1]) - 1] = getPlayerChar();
-            break;
 
+            } else {
+                board[Integer.parseInt(userInput[0]) - 1][Integer.parseInt(userInput[1]) - 1] = getPlayerChar();
+                isNotValid = false;
+            }
         }
-        return winner(getPlayerChar());
     }
 }
